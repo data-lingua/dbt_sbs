@@ -5,7 +5,7 @@
 version: 2
 
 models:
-  - name: airport
+  - name: AIRPORT
     description: Actually holds airport information including location coordinates and elevation data.
     config:
       contract:
@@ -13,21 +13,145 @@ models:
     constraints:
       - type: primary_key
         columns:
-          - airport_id
-        name: pk_airport
+          - AIRPORT_ID
+        name: pk_AIRPORT
     columns:
-      - name: airport_id
+      - name: AIRPORT_ID
         data_type: varchar(16777216)
         description: Unique identifier for each airport.
         constraints:
           - type: not_null
-      - name: airport_name
+      - name: AIRPORT_NAME
         data_type: varchar(16777216)
         description: The name of the airport.
-      - name: longitude
+      - name: LONGITUDE
         data_type: float
         description: The longitude coordinate of the airports geographic location.
-      - name: latitude
+      - name: LATITUDE
         data_type: float
         description: The latitude coordinate of the airports geographic location.
+
+  - name: COUNTRY
+    description: ''
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns:
+          - COUNTRY_ID
+        name: pk_COUNTRY
+    columns:
+      - name: COUNTRY_ID
+        data_type: integer
+        description: ''
+        constraints:
+          - type: not_null
+      - name: NAME
+        data_type: string
+        description: ''
+        constraints:
+          - type: not_null
+
+  - name: ORDERS
+    description: Order overview data mart, offering key details for each order inlcluding if it's a customer's first order and a food vs. drink item breakdown. One row per order.
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns:
+          - ORDER_ID
+        name: pk_ORDERS
+      - type: foreign_key
+        columns:
+          - COUNTRY_ID
+        expression: PUBLIC.COUNTRY (COUNTRY_ID)
+        name: fk_ORDERS_COUNTRY
+    columns:
+      - name: ORDER_ID
+        data_type: varchar(16777216)
+        description: The unique key of the orders mart.
+        constraints:
+          - type: not_null
+      - name: LOCATION_ID
+        data_type: varchar(16777216)
+        description: The store location where the order was placed.
+      - name: CUSTOMER_ID
+        data_type: varchar(16777216)
+        description: The foreign key relating to the customer who placed the order.
+      - name: SUBTOTAL_CENTS
+        data_type: number(38,0)
+        description: Order subtotal in cents.
+      - name: TAX_PAID_CENTS
+        data_type: number(38,0)
+        description: Tax paid in cents.
+      - name: ORDER_TOTAL_CENTS
+        data_type: number(38,0)
+        description: Order total in cents.
+      - name: SUBTOTAL
+        data_type: number(38,0)
+        description: Order subtotal in dollars.
+      - name: TAX_PAID
+        data_type: number(38,0)
+        description: Tax paid in dollars.
+      - name: ORDER_TOTAL
+        data_type: number(38,0)
+        description: The total amount of the order in USD including tax.
+      - name: ORDER_DATE
+        data_type: date
+        description: The date the order was placed.
+      - name: ORDER_COST
+        data_type: number(38,0)
+        description: The sum of supply expenses to fulfill the order.
+      - name: ORDER_ITEMS_SUBTOTAL
+        data_type: number(38,0)
+        description: The sum of all product prices in the order.
+      - name: COUNT_FOOD_ITEMS
+        data_type: number(38,0)
+        description: The count of food items in the order.
+      - name: COUNT_DRINK_ITEMS
+        data_type: number(38,0)
+        description: The count of drink items in the order.
+      - name: COUNT_ORDER_ITEMS
+        data_type: number(38,0)
+        description: The total count of items in the order.
+      - name: IS_FOOD_ORDER
+        data_type: boolean
+        description: A boolean indicating if this order included any food items.
+      - name: IS_DRINK_ORDER
+        data_type: boolean
+        description: A boolean indicating if this order included any drink items.
+      - name: CUSTOMER_ORDER_NUMBER
+        data_type: number(38,0)
+        description: The sequential order number for this customer (1 for first order, 2 for second, etc.).
+      - name: COUNTRY_ID
+        data_type: integer
+        description: ''
+        constraints:
+          - type: not_null
+
+  - name: STG_ORDERS
+    description: Order data with basic cleaning and transformation applied, one row per order.
+    columns:
+      - name: ORDER_ID
+        description: The unique key for each order.
+      - name: LOCATION_ID
+        description: The store location where the order was placed.
+      - name: CUSTOMER_ID
+        description: The customer who placed the order.
+      - name: SUBTOTAL_CENTS
+        description: Order subtotal in cents.
+      - name: TAX_PAID_CENTS
+        description: Tax paid in cents.
+      - name: ORDER_TOTAL_CENTS
+        description: Order total in cents.
+      - name: SUBTOTAL
+        description: Order subtotal in dollars.
+      - name: TAX_PAID
+        description: Tax paid in dollars.
+      - name: ORDER_TOTAL
+        description: Order total in dollars.
+      - name: ORDER_DATE
+        description: The date the order was placed.
 
