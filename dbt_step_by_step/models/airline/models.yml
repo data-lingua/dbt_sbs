@@ -17,13 +17,17 @@ models:
         name: pk_airport
     columns:
       - name: airport_id
+        data_type: varchar(16777216)
         description: Unique identifier for each airport.
         constraints:
           - type: not_null
       - name: airport_name
+        data_type: varchar(16777216)
         description: The name of the airport.
       - name: longitude
+        data_type: float
         description: The longitude coordinate of the airports geographic location.
       - name: latitude
+        data_type: float
         description: The latitude coordinate of the airports geographic location.
 
