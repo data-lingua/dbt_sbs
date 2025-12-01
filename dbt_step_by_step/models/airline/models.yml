@@ -7,15 +7,31 @@ version: 2
 models:
   - name: airport
     description: Holds airport information including location coordinates and elevation data.
+    config:
+      contract:
+        enforced: true
+    constraints:
+      - type: primary_key
+        columns:
+          - airport_id
+        name: pk_airport
     columns:
       - name: airport_id
         description: Unique identifier for each airport.
+        constraints:
+          - type: not_null
       - name: airport_name
         description: The name of the airport.
+        constraints:
+          - type: not_null
       - name: longitude
         description: The longitude coordinate of the airports geographic location.
+        constraints:
+          - type: not_null
       - name: latitude
         description: The latitude coordinate of the airports geographic location.
+        constraints:
+          - type: not_null
       - name: elevation
         description: The elevation of the airport above sea level.
 
