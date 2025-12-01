@@ -6,7 +6,7 @@ version: 2
 
 models:
   - name: airport
-    description: Stores airport information including location coordinates and elevation data.
+    description: Holds airport information including location coordinates and elevation data.
     columns:
       - name: airport_id
         description: Unique identifier for each airport.
